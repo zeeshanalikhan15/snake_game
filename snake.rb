@@ -69,8 +69,7 @@ end
 
 def check_collision
   head = $snake.first
-  return true if $snake[1..-1].include?(head)
-  false
+  $game_over = true if $snake[1..-1].include?(head)
 end
 
 update do
