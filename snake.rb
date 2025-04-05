@@ -1,5 +1,6 @@
 require 'ruby2d'
 require_relative 'config'
+require_relative 'game_rules'
 
 # Window configuration
 set title: "Snake Game"
@@ -39,40 +40,6 @@ on :key_down do |event|
       $game_over = false
     end
   end
-end
-
-def move_snake
-  head_x, head_y = $snake.first
-
-  case $direction
-  when 'up'    then head_y -= CELL_SIZE
-  when 'down'  then head_y += CELL_SIZE
-  when 'left'  then head_x -= CELL_SIZE
-  when 'right' then head_x += CELL_SIZE
-  end
-
-  # Wrap around the screen
-  head_x = 0 if head_x >= BOARD_WIDTH
-  head_x = BOARD_WIDTH - CELL_SIZE if head_x < 0
-  head_y = 0 if head_y >= BOARD_HEIGHT
-  head_y = BOARD_HEIGHT - CELL_SIZE if head_y < 0
-
-  $snake.unshift([head_x, head_y])
-
-  if head_x == $food[0] && head_y == $food[1]
-    $score += 1
-    $food = [
-      rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
-      rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
-    ]
-  else
-    $snake.pop
-  end
-end
-
-def check_collision
-  head = $snake.first
-  $game_over = true if $snake[1..-1].include?(head)
 end
 
 update do
@@ -143,8 +110,8 @@ update do
 
     # Move snake every GAME_SPEED frames
     if (Window.frames % GAME_SPEED).zero?
-      move_snake
-      if check_collision
+      $snake, $food, $score = move_snake($snake, $direction, $food, $score, BOARD_WIDTH, BOARD_HEIGHT, CELL_SIZE)
+      if check_collision($snake)
         $game_over = true
         Text.new("Game Over! Score: #{$score}", x: 200, y: 180, size: 20)
       end
