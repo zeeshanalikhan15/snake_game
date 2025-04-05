@@ -23,6 +23,18 @@ on :key_down do |event|
   when 'down'  then $direction = 'down'  if $direction != 'up'
   when 'left'  then $direction = 'left'  if $direction != 'right'
   when 'right' then $direction = 'right' if $direction != 'left'
+  when 'escape' then close
+  when 'f2'
+    if $game_over
+      $snake = [[100, 100], [90, 100], [80, 100]]
+      $direction = 'right'
+      $food = [
+        rand((Window.width / CELL_SIZE)).floor * CELL_SIZE,
+        rand((Window.height / CELL_SIZE)).floor * CELL_SIZE
+      ]
+      $score = 0
+      $game_over = false
+    end
   end
 end
 
