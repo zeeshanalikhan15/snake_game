@@ -3,6 +3,7 @@ require_relative 'config'
 require_relative 'game_rules'
 require_relative 'draw_snake'
 require_relative 'draw_food'
+require_relative 'game_input'
 
 # Window configuration
 set title: "Snake Game"
@@ -18,23 +19,7 @@ $game_over = INITIAL_GAME_OVER
 $tongue_visible = INITIAL_TONGUE_VISIBLE
 
 # Handle keyboard input
-on :key_down do |event|
-  case event.key
-  when 'up'    then $direction = 'up'    if $direction != 'down'
-  when 'down'  then $direction = 'down'  if $direction != 'up'
-  when 'left'  then $direction = 'left'  if $direction != 'right'
-  when 'right' then $direction = 'right' if $direction != 'left'
-  when 'escape' then close
-  when 'f2'
-    if $game_over
-      $snake = INITIAL_SNAKE
-      $direction = INITIAL_DIRECTION
-      $food = INITIAL_FOOD
-      $score = INITIAL_SCORE
-      $game_over = INITIAL_GAME_OVER
-    end
-  end
-end
+handle_input
 
 update do
   unless $game_over
