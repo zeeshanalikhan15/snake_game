@@ -92,8 +92,8 @@ update do
       )
     end
 
-    # Move snake every 100ms
-    if (Window.frames % 10).zero?
+    # Move snake every 150ms
+    if (Window.frames % 25).zero?
       move_snake
       if check_collision
         $game_over = true
