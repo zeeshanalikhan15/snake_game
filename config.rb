@@ -6,3 +6,14 @@ CELL_SIZE = 20
 # Game speed (frames per move)
 GAME_SPEED = 25
 TONGUE_TOGGLE_SPEED = 10
+
+# Initial values
+INITIAL_SNAKE = [[100, 100], [90, 100], [80, 100]]
+INITIAL_DIRECTION = 'right'
+INITIAL_FOOD = [
+  rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
+  rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
+]
+INITIAL_SCORE = 0
+INITIAL_GAME_OVER = false
+INITIAL_TONGUE_VISIBLE = false

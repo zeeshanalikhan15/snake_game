@@ -10,17 +10,12 @@ set width: BOARD_WIDTH
 set height: BOARD_HEIGHT
 
 # Game variables
-$snake = [[100, 100], [90, 100], [80, 100]]
-$direction = 'right'
-$food = [
-  rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
-  rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
-]
-$score = 0
-$game_over = false
-
-# Add a variable to track tongue visibility
-$tongue_visible = false
+$snake = INITIAL_SNAKE
+$direction = INITIAL_DIRECTION
+$food = INITIAL_FOOD
+$score = INITIAL_SCORE
+$game_over = INITIAL_GAME_OVER
+$tongue_visible = INITIAL_TONGUE_VISIBLE
 
 # Handle keyboard input
 on :key_down do |event|
@@ -32,14 +27,11 @@ on :key_down do |event|
   when 'escape' then close
   when 'f2'
     if $game_over
-      $snake = [[100, 100], [90, 100], [80, 100]]
-      $direction = 'right'
-      $food = [
-        rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
-        rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
-      ]
-      $score = 0
-      $game_over = false
+      $snake = INITIAL_SNAKE
+      $direction = INITIAL_DIRECTION
+      $food = INITIAL_FOOD
+      $score = INITIAL_SCORE
+      $game_over = INITIAL_GAME_OVER
     end
   end
 end
