@@ -36,6 +36,12 @@ def move_snake
   when 'right' then head_x += CELL_SIZE
   end
 
+  # Wrap around the screen
+  head_x = 0 if head_x >= Window.width
+  head_x = Window.width - CELL_SIZE if head_x < 0
+  head_y = 0 if head_y >= Window.height
+  head_y = Window.height - CELL_SIZE if head_y < 0
+
   $snake.unshift([head_x, head_y])
 
   if head_x == $food[0] && head_y == $food[1]
@@ -51,8 +57,6 @@ end
 
 def check_collision
   head = $snake.first
-  return true if head[0] < 0 || head[0] >= Window.width ||
-                head[1] < 0 || head[1] >= Window.height
   return true if $snake[1..-1].include?(head)
   false
 end
