@@ -1,17 +1,17 @@
 require 'ruby2d'
+require_relative 'config'
 
 # Window configuration
 set title: "Snake Game"
-set width: 600
-set height: 400
-CELL_SIZE = 20
+set width: BOARD_WIDTH
+set height: BOARD_HEIGHT
 
 # Game variables
 $snake = [[100, 100], [90, 100], [80, 100]]
 $direction = 'right'
 $food = [
-  rand((Window.width / CELL_SIZE)).floor * CELL_SIZE,
-  rand((Window.height / CELL_SIZE)).floor * CELL_SIZE
+  rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
+  rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
 ]
 $score = 0
 $game_over = false
@@ -32,8 +32,8 @@ on :key_down do |event|
       $snake = [[100, 100], [90, 100], [80, 100]]
       $direction = 'right'
       $food = [
-        rand((Window.width / CELL_SIZE)).floor * CELL_SIZE,
-        rand((Window.height / CELL_SIZE)).floor * CELL_SIZE
+        rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
+        rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
       ]
       $score = 0
       $game_over = false
@@ -52,18 +52,18 @@ def move_snake
   end
 
   # Wrap around the screen
-  head_x = 0 if head_x >= Window.width
-  head_x = Window.width - CELL_SIZE if head_x < 0
-  head_y = 0 if head_y >= Window.height
-  head_y = Window.height - CELL_SIZE if head_y < 0
+  head_x = 0 if head_x >= BOARD_WIDTH
+  head_x = BOARD_WIDTH - CELL_SIZE if head_x < 0
+  head_y = 0 if head_y >= BOARD_HEIGHT
+  head_y = BOARD_HEIGHT - CELL_SIZE if head_y < 0
 
   $snake.unshift([head_x, head_y])
 
   if head_x == $food[0] && head_y == $food[1]
     $score += 1
     $food = [
-      rand((Window.width / CELL_SIZE)).floor * CELL_SIZE,
-      rand((Window.height / CELL_SIZE)).floor * CELL_SIZE
+      rand((BOARD_WIDTH / CELL_SIZE)).floor * CELL_SIZE,
+      rand((BOARD_HEIGHT / CELL_SIZE)).floor * CELL_SIZE
     ]
   else
     $snake.pop
@@ -138,11 +138,11 @@ update do
       end
     end
 
-    # Toggle tongue visibility every 10 frames
-    $tongue_visible = !$tongue_visible if (Window.frames % 10).zero?
+    # Toggle tongue visibility every TONGUE_TOGGLE_SPEED frames
+    $tongue_visible = !$tongue_visible if (Window.frames % TONGUE_TOGGLE_SPEED).zero?
 
-    # Move snake every 150ms
-    if (Window.frames % 25).zero?
+    # Move snake every GAME_SPEED frames
+    if (Window.frames % GAME_SPEED).zero?
       move_snake
       if check_collision
         $game_over = true
